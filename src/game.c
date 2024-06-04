@@ -3,6 +3,7 @@
 void initGame(Game* game)
 {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Angels Target");
+    SetWindowState(FLAG_WINDOW_RESIZABLE | FLAG_VSYNC_HINT);
 
     // Screen texture.
     game->screenTexture = LoadRenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT);
@@ -20,6 +21,12 @@ void initGame(Game* game)
         WHITE,
         BLUE
     );
+
+    // Player.
+    initPlayer(&game->player);
+
+    // World.
+    initWorld(&game->world);
 }
 
 void drawMainMenu(Game* game)
@@ -28,6 +35,8 @@ void drawMainMenu(Game* game)
     DrawTexture(game->assets.textures[MAIN_MENU_BACKGROUND_TEXTURE], 0, 0, WHITE);
 
     DrawText("Angels Target", 65, 50, 30, WHITE);
+
+    DrawFPS(0, 0);
 
     // Update start button.
     if (updateTexturedButton(&game->mainMenu.startButton))
@@ -39,6 +48,48 @@ void drawMainMenu(Game* game)
 void drawGameScreen(Game* game)
 {
     ClearBackground(BLACK);
+
+    BeginMode2D(game->player.camera);
+
+    DrawRectangleRec((Rectangle){0.0, 0.0, 20.0, 20.0}, WHITE);
+
+    EndMode2D();
+}
+
+void drawScreenTexture(Game* game)
+{
+    int windowWidth = GetScreenWidth();
+    int windowHeight = GetScreenHeight();
+    
+    // Get render texture to window.
+    int screenWidth = game->screenTexture.texture.width;
+    int screenHeight = game->screenTexture.texture.height;
+	float scale;
+
+	if ((float)windowWidth / windowHeight > (float)SCREEN_WIDTH / SCREEN_HEIGHT)
+		scale = (float)windowHeight / screenHeight;
+	else
+		scale = (float)windowWidth / screenWidth;
+
+	float width = screenWidth * scale;
+	float height = screenHeight  * scale;
+
+	Rectangle destRect = (Rectangle){windowWidth / 2.0 - width / 2.0, windowHeight / 2.0 - height / 2.0, width, height};
+
+    // Draw the texture
+    DrawTexturePro(
+        game->screenTexture.texture,
+        (Rectangle){0.0, 0.0, screenWidth, -screenHeight},
+        destRect,
+        Vector2Zero(),
+        0.0,
+        WHITE
+    );
+
+    if (!FloatEquals((float)windowWidth / windowHeight, (float)SCREEN_WIDTH / SCREEN_HEIGHT))
+	{
+	    DrawRectangleLinesEx(destRect, 1, WHITE);
+	}
 }
 
 void updateGame(Game* game)
@@ -62,14 +113,7 @@ void updateGame(Game* game)
     BeginDrawing();
 
     // Draw the render texture.
-    DrawTexturePro(
-        game->screenTexture.texture,
-        (Rectangle){0.0, 0.0, game->screenTexture.texture.width, -game->screenTexture.texture.height},
-        (Rectangle){0.0, 0.0, GetScreenWidth(), GetScreenHeight()},
-        Vector2Zero(),
-        0.0,
-        WHITE
-    );
+    drawScreenTexture(game);
 
     EndDrawing();
 }

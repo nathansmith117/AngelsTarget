@@ -1,6 +1,7 @@
 #include "gameCommon.h"
 #include "assets.h"
 #include "ui.h"
+#include "world.h"
 
 typedef enum ScreenId {
     MAIN_MENU_SCREEN,
@@ -8,16 +9,20 @@ typedef enum ScreenId {
 } ScreenId;
 
 typedef struct Game {
-     // Everything is drawn onto a render texture so it can be scaled nicely.
+    // Everything is drawn onto a render texture so it can be scaled nicely.
     RenderTexture screenTexture;
 
     Assets assets;
-    
+
+    // Screen stuff.
     ScreenId screenId;
 
     struct {
         TexturedButton startButton;
     } mainMenu;
+
+    Player player;
+    World world;
 } Game;
 
 void initGame(Game* game);
