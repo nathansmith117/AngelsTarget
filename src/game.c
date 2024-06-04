@@ -68,6 +68,9 @@ void updateGameCamera(Game* game)
     {
         EnableCursor();
     }
+
+    // Zoom
+    camera->zoom = 1.0;
 }
 
 void drawGameScreen(Game* game)
@@ -78,7 +81,8 @@ void drawGameScreen(Game* game)
 
     BeginMode2D(game->camera);
 
-    DrawTexture(game->assets.textures[CHARACTER_TEXTURE], 0, 0, WHITE);
+    //DrawTexture(game->assets.textures[CHARACTER_TEXTURE], 0, 0, WHITE);
+    updateWorld(&game->world, game);
 
     EndMode2D();
 }
