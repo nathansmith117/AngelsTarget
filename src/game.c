@@ -36,8 +36,6 @@ void drawMainMenu(Game* game)
 
     DrawText("Angels Target", 65, 50, 30, WHITE);
 
-    DrawFPS(0, 0);
-
     // Update start button.
     if (updateTexturedButton(&game->mainMenu.startButton))
     {
@@ -51,7 +49,7 @@ void drawGameScreen(Game* game)
 
     BeginMode2D(game->player.camera);
 
-    DrawTexture(game->assets.textures[CHARACTER_TEXTURE], 0, 0, WHITE);
+    updatePlayer(&game->player, game);
 
     EndMode2D();
 }

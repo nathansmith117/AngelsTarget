@@ -1,5 +1,7 @@
 #include "gameCommon.h"
 
+#define PLAYER_SPEED 50.0
+
 #ifndef WORLD_H
 #define WORLD_H
 
