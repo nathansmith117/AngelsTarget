@@ -4,19 +4,41 @@ void initGame(Game* game)
 {
     InitWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "Angels Target");
 
-    // Screens.
-    game->screenId = MAIN_MENU_SCREEN;
-
     // Screen texture.
     game->screenTexture = LoadRenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT);
 
     initAssets(&game->assets);
+
+    // Screens.
+    game->screenId = MAIN_MENU_SCREEN;
+
+    // Main menu.
+    game->mainMenu.startButton = createTexturedButton(
+        &game->assets.textures[BUTTON_BOX_TEXTURE], 
+        (Rectangle){110.0, 95.0, 100.0, 50.0},
+        "Start",
+        WHITE,
+        BLUE
+    );
 }
 
 void drawMainMenu(Game* game)
 {
-    ClearBackground(RAYWHITE);
-    DrawFPS(0, 0);
+    // Draw background.
+    DrawTexture(game->assets.textures[MAIN_MENU_BACKGROUND_TEXTURE], 0, 0, WHITE);
+
+    DrawText("Angels Target", 65, 50, 30, WHITE);
+
+    // Update start button.
+    if (updateTexturedButton(&game->mainMenu.startButton))
+    {
+        game->screenId = GAME_SCREEN;
+    }
+}
+
+void drawGameScreen(Game* game)
+{
+    ClearBackground(BLACK);
 }
 
 void updateGame(Game* game)
@@ -31,6 +53,7 @@ void updateGame(Game* game)
             drawMainMenu(game);
             break;
         case GAME_SCREEN:
+            drawGameScreen(game);
             break;
     }
 

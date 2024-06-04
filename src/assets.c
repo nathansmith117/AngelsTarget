@@ -1,7 +1,8 @@
 #include "assets.h"
 
 const char textureAssetsNames[TEXTURE_ASSET_COUNT][ASSETS_NAME_MAX] = {
-    "buttonBox.png"
+    "buttonBox.png",
+    "mainMenuBackground.png"
 };
 
 void initAssets(Assets* assets)
