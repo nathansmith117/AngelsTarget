@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.28.2)
 
-project(NarcissistCleansing VERSION 1.0)
+project(AngelsTarget VERSION 1.0)
 
 find_package(raylib 3.0 REQUIRED)
 

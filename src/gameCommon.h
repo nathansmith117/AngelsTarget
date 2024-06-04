@@ -26,13 +26,16 @@
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 960
 
+#define SCREEN_WIDTH 320
+#define SCREEN_HEIGHT 240
+
 // Memory management.
-#define NN_MALLOC(size) malloc(size)
-#define NN_CALLOC(nmemb, size) calloc(nmemb, size)
-#define NN_REALLOC(ptr, size) realloc(ptr, size)
-#define NN_REALLOCARRAY(ptr, nmemb, size) reallocarray(ptr, nmemb, size)
-//#define NN_REALLOCARRAY(ptr, nmemb, size) realloc(ptr, nmemb * size)
-#define NN_FREE(ptr) free(ptr)
+#define AT_MALLOC(size) malloc(size)
+#define AT_CALLOC(nmemb, size) calloc(nmemb, size)
+#define AT_REALLOC(ptr, size) realloc(ptr, size)
+#define AT_REALLOCARRAY(ptr, nmemb, size) reallocarray(ptr, nmemb, size)
+//#define AT_REALLOCARRAY(ptr, nmemb, size) realloc(ptr, nmemb * size)
+#define AT_FREE(ptr) free(ptr)
 
 #define ALLOCATION_ERROR TraceLog(LOG_ERROR, "Allocation error in %s:%d", __FILE__, __LINE__)
 
