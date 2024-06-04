@@ -23,6 +23,8 @@
 #ifndef GAME_COMMON_H
 #define GAME_COMMON_H
 
+typedef struct Game Game;
+
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 960
 

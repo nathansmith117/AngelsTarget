@@ -13,12 +13,16 @@ void initGame(Game* game)
 
 void drawMainMenu(Game* game)
 {
+    ClearBackground(RAYWHITE);
+    DrawFPS(0, 0);
 }
 
 void updateGame(Game* game)
 {
-    BeginDrawing();
 
+    // Most of the drawing happens on the render texture.
+    BeginTextureMode(game->screenTexture);
+    
     switch (game->screenId)
     {
         case MAIN_MENU_SCREEN:
@@ -27,6 +31,20 @@ void updateGame(Game* game)
         case GAME_SCREEN:
             break;
     }
+
+    EndTextureMode();
+
+    BeginDrawing();
+
+    // Draw the render texture.
+    DrawTexturePro(
+        game->screenTexture.texture,
+        (Rectangle){0.0, 0.0, game->screenTexture.texture.width, -game->screenTexture.texture.height},
+        (Rectangle){0.0, 0.0, GetScreenWidth(), GetScreenHeight()},
+        Vector2Zero(),
+        0.0,
+        WHITE
+    );
 
     EndDrawing();
 }
