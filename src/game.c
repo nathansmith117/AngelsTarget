@@ -1,4 +1,5 @@
 #include "game.h"
+#include "util.h"
 
 void initGame(Game* game)
 {
@@ -22,8 +23,13 @@ void initGame(Game* game)
         BLUE
     );
 
-    // Player.
-    initPlayer(&game->player);
+    // Camera.
+    game->camera = (Camera2D){
+        .offset = (Vector2){SCREEN_WIDTH / 2.0, SCREEN_HEIGHT / 2.0},
+        .target = Vector2Zero(),
+        .rotation = 0.0,
+        .zoom = 1.0
+    };
 
     // World.
     initWorld(&game->world);
@@ -43,13 +49,36 @@ void drawMainMenu(Game* game)
     }
 }
 
+void updateGameCamera(Game* game)
+{
+    Camera2D* camera = &game->camera;
+
+    // Scroll camera.
+    if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
+    {
+        camera->target = Vector2Add(getScaledMouseDelta(), camera->target);
+    }
+
+    // Hide and show mouse when scrolling.
+    if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
+    {
+        DisableCursor();
+    }
+    else if (IsMouseButtonReleased(MOUSE_LEFT_BUTTON))
+    {
+        EnableCursor();
+    }
+}
+
 void drawGameScreen(Game* game)
 {
     ClearBackground(BLACK);
 
-    BeginMode2D(game->player.camera);
+    updateGameCamera(game);
 
-    updatePlayer(&game->player, game);
+    BeginMode2D(game->camera);
+
+    DrawTexture(game->assets.textures[CHARACTER_TEXTURE], 0, 0, WHITE);
 
     EndMode2D();
 }

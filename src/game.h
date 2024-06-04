@@ -21,7 +21,7 @@ typedef struct Game {
         TexturedButton startButton;
     } mainMenu;
 
-    Player player;
+    Camera2D camera;
     World world;
 } Game;
 

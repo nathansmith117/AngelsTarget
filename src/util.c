@@ -10,3 +10,12 @@ Vector2 getScaledMousePosition()
     return mousePosition;
 }
 
+Vector2 getScaledMouseDelta()
+{
+    Vector2 mouseDelta = GetMouseDelta();
+    mouseDelta.x *= (float)SCREEN_WIDTH / GetScreenWidth();
+    mouseDelta.y *= (float)SCREEN_HEIGHT / GetScreenHeight();
+
+    return mouseDelta;
+}
+
