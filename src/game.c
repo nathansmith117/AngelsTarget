@@ -51,7 +51,7 @@ void drawGameScreen(Game* game)
 
     BeginMode2D(game->player.camera);
 
-    DrawRectangleRec((Rectangle){0.0, 0.0, 20.0, 20.0}, WHITE);
+    DrawTexture(game->assets.textures[CHARACTER_TEXTURE], 0, 0, WHITE);
 
     EndMode2D();
 }
