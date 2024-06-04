@@ -1,2 +1,2 @@
-# Narcissist Cleansing
-A game where you free everyone from the curse of narcissists while committing arson.
+# Angels Target
+A game made with raylib where you are given a target to kill using arson.
