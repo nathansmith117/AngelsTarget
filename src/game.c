@@ -9,6 +9,8 @@ void initGame(Game* game)
 
     // Screen texture.
     game->screenTexture = LoadRenderTexture(SCREEN_WIDTH, SCREEN_HEIGHT);
+
+    initAssets(&game->assets);
 }
 
 void drawMainMenu(Game* game)
@@ -51,6 +53,8 @@ void updateGame(Game* game)
 
 void closeGame(Game* game)
 {
+    closeAssets(&game->assets);
+    
     UnloadRenderTexture(game->screenTexture);
     CloseWindow();
 }
