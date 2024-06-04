@@ -1,0 +1,3 @@
+/home/nathan/Documents/dev/NarcissistCleansing/build/CMakeFiles/NarcissistCleansing.dir
+/home/nathan/Documents/dev/NarcissistCleansing/build/CMakeFiles/edit_cache.dir
+/home/nathan/Documents/dev/NarcissistCleansing/build/CMakeFiles/rebuild_cache.dir

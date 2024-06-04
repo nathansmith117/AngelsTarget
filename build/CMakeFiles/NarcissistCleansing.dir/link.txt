@@ -1,0 +1,1 @@
+/usr/bin/clang CMakeFiles/NarcissistCleansing.dir/src/game.c.o CMakeFiles/NarcissistCleansing.dir/src/implementations.c.o CMakeFiles/NarcissistCleansing.dir/src/main.c.o -o NarcissistCleansing  -Wl,-rpath,/usr/local/lib64 /usr/local/lib64/libraylib.a -lm -L/usr/local/lib64 -lraylib 
