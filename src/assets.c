@@ -3,7 +3,8 @@
 const char textureAssetsNames[TEXTURE_ASSET_COUNT][ASSETS_NAME_MAX] = {
     "buttonBox.png",
     "mainMenuBackground.png",
-    "character.png"
+    "character.png",
+    "world.png"
 };
 
 void initAssets(Assets* assets)

@@ -3,7 +3,7 @@
 // Used for loading and freeing assets.
 
 #define ASSETS_NAME_MAX 100
-#define TEXTURE_ASSET_COUNT 3
+#define TEXTURE_ASSET_COUNT 4
 
 #ifndef ASSETS_H
 #define ASSETS_H
@@ -14,7 +14,8 @@ enum
 {
     BUTTON_BOX_TEXTURE,
     MAIN_MENU_BACKGROUND_TEXTURE,
-    CHARACTER_TEXTURE
+    CHARACTER_TEXTURE,
+    WORLD_TEXTURE
 };
 
 typedef struct Assets {

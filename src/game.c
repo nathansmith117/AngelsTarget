@@ -70,7 +70,10 @@ void updateGameCamera(Game* game)
     }
 
     // Zoom
-    camera->zoom = 1.0;
+    float zoomSpeed = 0.05;
+    camera->zoom += GetMouseWheelMove() * zoomSpeed;
+    camera->zoom = Clamp(camera->zoom, zoomSpeed, 3.0);
+    printf("%f\n", camera->zoom);
 }
 
 void drawGameScreen(Game* game)
