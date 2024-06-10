@@ -5,10 +5,18 @@
 
 #define WORLD_ROWS 20
 #define WORLD_COLS 20
-#define WORLD_BLOCK_SIZE 96
-#define WORLD_BLOCK_GAP 64
+#define WORLD_BLOCK_SIZE 160
+
+// type structure is at each point.
+typedef enum StructureID {
+    NONE_STRUCTURE,
+    HOUSE_STRUCTURE,
+    STORE_STRUCTURE
+} StructureID;
 
 typedef struct World {
+    StructureID structures[WORLD_ROWS][WORLD_COLS];
+    bool showGrid;
 } World;
 
 void initWorld(World* world);

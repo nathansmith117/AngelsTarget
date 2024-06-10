@@ -35,7 +35,7 @@ void initGame(Game* game)
     initWorld(&game->world);
 }
 
-void drawMainMenu(Game* game)
+void updateMainMenu(Game* game)
 {
     // Draw background.
     DrawTexture(game->assets.textures[MAIN_MENU_BACKGROUND_TEXTURE], 0, 0, WHITE);
@@ -56,7 +56,10 @@ void updateGameCamera(Game* game)
     // Scroll camera.
     if (IsMouseButtonDown(MOUSE_LEFT_BUTTON))
     {
-        camera->target = Vector2Add(getScaledMouseDelta(), camera->target);
+        camera->target = Vector2Add(
+            Vector2Scale(getScaledMouseDelta(), 1.0 / camera->zoom),
+            camera->target
+        );
     }
 
     // Hide and show mouse when scrolling.
@@ -72,15 +75,24 @@ void updateGameCamera(Game* game)
     // Zoom
     float zoomSpeed = 0.05;
     camera->zoom += GetMouseWheelMove() * zoomSpeed;
-    camera->zoom = Clamp(camera->zoom, zoomSpeed, 3.0);
-    printf("%f\n", camera->zoom);
+    camera->zoom = Clamp(camera->zoom, zoomSpeed, 1.0);
+    //printf("%f\n", camera->zoom);
 }
 
-void drawGameScreen(Game* game)
+void updateGameControls(Game* game)
+{
+    if (IsKeyPressed(KEY_G))
+    {
+        game->world.showGrid = !game->world.showGrid;
+    }
+}
+
+void updateGameScreen(Game* game)
 {
     ClearBackground(BLACK);
 
     updateGameCamera(game);
+    updateGameControls(game);
 
     BeginMode2D(game->camera);
 
@@ -135,10 +147,10 @@ void updateGame(Game* game)
     switch (game->screenId)
     {
         case MAIN_MENU_SCREEN:
-            drawMainMenu(game);
+            updateMainMenu(game);
             break;
         case GAME_SCREEN:
-            drawGameScreen(game);
+            updateGameScreen(game);
             break;
     }
 
