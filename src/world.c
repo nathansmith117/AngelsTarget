@@ -1,6 +1,7 @@
 #include "world.h"
 #include "assets.h"
 #include "game.h"
+#include "util.h"
 
 void initWorld(World* world)
 {
