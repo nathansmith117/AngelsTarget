@@ -23,3 +23,4 @@ void initWorld(World* world);
 void updateWorld(World* world, Game* game);
 
 #endif
+

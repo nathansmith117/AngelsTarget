@@ -22,19 +22,22 @@ void initWorld(World* world)
     world->showGrid = false;
 }
 
-void drawWorldStructure(StructureID structureID, int row, int col)
+void drawWorldStructure(StructureID structureID, int row, int col, Game* game)
 {
     int x = col * WORLD_BLOCK_SIZE;
     int y = row * WORLD_BLOCK_SIZE;
 
+    Texture grass = game->assets.textures[GRASS_TEXTURE];
+
     switch (structureID)
     {
         case NONE_STRUCTURE:
-            DrawRectangleRec((Rectangle){x, y, WORLD_BLOCK_SIZE, WORLD_BLOCK_SIZE}, DARKGREEN);
+            DrawTexture(grass, x, y, WHITE);
             break;
         case HOUSE_STRUCTURE:
-            DrawRectangleRec((Rectangle){x, y, WORLD_BLOCK_SIZE, WORLD_BLOCK_SIZE}, DARKGREEN);
-            DrawRectangleRec((Rectangle){x + 32, y + 32, 96, 96}, DARKGRAY);
+            DrawTexture(grass, x, y, WHITE);
+            Texture house = game->assets.textures[HOUSE_TEXTURE];
+            DrawTexture(house, x + 32, y + 32, WHITE);
             break;
         case STORE_STRUCTURE:
             break;
@@ -52,7 +55,7 @@ void updateWorld(World* world, Game* game)
             int x = col * WORLD_BLOCK_SIZE;
             int y = row * WORLD_BLOCK_SIZE;
 
-            drawWorldStructure(world->structures[row][col], row, col);
+            drawWorldStructure(world->structures[row][col], row, col, game);
 
             if (world->showGrid)
             {
