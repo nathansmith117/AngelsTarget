@@ -5,7 +5,9 @@ const char textureAssetsNames[TEXTURE_ASSET_COUNT][ASSETS_NAME_MAX] = {
     "mainMenuBackground.png",
     "character.png",
     "grass.png",
-    "house.png"
+    "house.png",
+    "shop.png",
+    "offce.png"
 };
 
 void initAssets(Assets* assets)

@@ -62,6 +62,9 @@ void updateGameCamera(Game* game)
         );
     }
 
+    camera->target.x = Clamp(camera->target.x, 0.0, WORLD_MAX_X);
+    camera->target.y = Clamp(camera->target.y, 0.0, WORLD_MAX_Y);
+
     // Hide and show mouse when scrolling.
     if (IsMouseButtonPressed(MOUSE_LEFT_BUTTON))
     {
@@ -76,7 +79,6 @@ void updateGameCamera(Game* game)
     float zoomSpeed = 0.05;
     camera->zoom += GetMouseWheelMove() * zoomSpeed;
     camera->zoom = Clamp(camera->zoom, zoomSpeed, 1.0);
-    //printf("%f\n", camera->zoom);
 }
 
 void updateGameControls(Game* game)

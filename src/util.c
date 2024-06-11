@@ -19,3 +19,15 @@ Vector2 getScaledMouseDelta()
     return mouseDelta;
 }
 
+void printVector2(const char* lable, Vector2 vector)
+{
+    if (lable == NULL)
+    {
+        printf("%f %f\n", vector.x, vector.y);
+    }
+    else
+    {
+        printf("%s: %f %f\n", lable, vector.x, vector.y);
+    }
+}
+

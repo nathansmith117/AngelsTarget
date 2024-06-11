@@ -7,5 +7,8 @@
 Vector2 getScaledMousePosition();
 Vector2 getScaledMouseDelta();
 
+// Used for easy printing.
+void printVector2(const char* lable, Vector2 vector);
+
 #endif
 
