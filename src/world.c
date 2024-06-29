@@ -29,6 +29,7 @@ void initWorld(World* world)
                     break;
             }
 
+            // Fill structure npc data
             StructureNpcData* structureNpcData = &world->structureNpcs[row][col];
             structureNpcData->npcCount = 0;
 
@@ -54,6 +55,8 @@ void initWorld(World* world)
 
         npc->targetRow = -1;
         npc->targetCol = -1;
+
+        npc->inAStrcuture = false;
     }
 
     world->showGrid = false;
@@ -106,7 +109,7 @@ void updateNpc(World* world, Npc* npc, Game* game)
     {
         retarget = true;
     }
-    else
+    else // Update position.
     {
         float frameTime = GetFrameTime();
         npc->position = Vector2Add(npc->position, Vector2Scale(npc->direction, frameTime * NPC_SPEED));
@@ -155,5 +158,75 @@ void updateWorld(World* world, Game* game)
         // Update it.
         updateNpc(world, npc, game);
     }
+}
+
+bool pushNpcIntoStructure(World* world, Npc* npc, int row, int col)
+{
+    StructureNpcData* structureNpcData = &world->structureNpcs[row][col];
+
+    // Its full.
+    if (structureNpcData->npcCount >= MAX_NPCS_PER_STRUCTURE)
+    {
+        return false;
+    }
+
+    // Its already in a structure.
+    if (npc->inAStrcuture)
+    {
+        return false;
+    }
+
+    // Change some things about the npc.
+    npc->position = (Vector2){col * WORLD_BLOCK_SIZE, row * WORLD_BLOCK_SIZE};
+    npc->targetRow = -1; // Set off retarget.
+    npc->inAStrcuture = true;
+    npc->timeEnteredStructure = GetTime();
+
+    // Add it.
+    structureNpcData->npcs[structureNpcData->npcCount] = npc;
+    ++structureNpcData->npcCount;
+
+    return true;
+}
+
+bool popNpcFromStructure(World* world, Npc* npc, int row, int col)
+{
+    StructureNpcData* structureNpcData = &world->structureNpcs[row][col];
+
+    // Its not in a structure.
+    if (!npc->inAStrcuture)
+    {
+        return false;
+    }
+
+    int foundAt = -1;
+    
+    for (int i = 0; i < structureNpcData->npcCount; ++i)
+    {
+        if (structureNpcData->npcs[i] == npc)
+        {
+            foundAt = i;
+            break;
+        }
+    }
+
+    // Not found in structure.
+    if (foundAt == -1)
+    {
+        return false;
+    }
+
+    structureNpcData->npcs[foundAt] = NULL;
+
+    // Move everything back.
+    for (int i = foundAt; i < structureNpcData->npcCount - 1; ++i)
+    {
+        structureNpcData->npcs[i] = structureNpcData->npcs[i + 1];
+    }
+
+    --structureNpcData->npcCount;
+    npc->inAStrcuture = false;
+
+    return true;
 }
 

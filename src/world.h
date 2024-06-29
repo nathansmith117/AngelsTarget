@@ -32,6 +32,9 @@ typedef struct Npc {
     // The place they are heading to.
     int targetRow;
     int targetCol;
+
+    bool inAStrcuture;
+    double timeEnteredStructure;
 } Npc;
 
 // Holds information about the npcs inside a structure.
@@ -52,6 +55,12 @@ typedef struct World {
 
 void initWorld(World* world);
 void updateWorld(World* world, Game* game);
+
+// Returns true if it pushes the npc in and false if not.
+bool pushNpcIntoStructure(World* world, Npc* npc, int row, int col);
+
+// Same thing but poppping.
+bool popNpcFromStructure(World* world, Npc* npc, int row, int col);
 
 #endif
 

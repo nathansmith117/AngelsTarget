@@ -89,6 +89,39 @@ void updateGameControls(Game* game)
     }
 }
 
+// Things you are hovering your mouse over.
+void drawGameEntityInfo(Game* game)
+{
+    World* world = &game->world;
+    Camera2D* camera = &game->camera;
+
+    Vector2 mousePosition = getScaledMousePosition();
+
+    // Get row and col from mouse position.
+    int mouseRow = (mousePosition.y - (camera->offset.y - (camera->target.y * camera->zoom))) / camera->zoom;
+    int mouseCol = (mousePosition.x - (camera->offset.x - (camera->target.x * camera->zoom))) / camera->zoom;
+    mouseRow /= WORLD_BLOCK_SIZE;
+    mouseCol /= WORLD_BLOCK_SIZE;
+
+    // Out of bounds.
+    if (mouseRow < 0 || mouseRow >= WORLD_ROWS || mouseCol < 0 || mouseCol >= WORLD_COLS)
+    {
+        return;
+    }
+
+    // Draw outline.
+    DrawRectangleLinesEx(
+        (Rectangle){
+            mouseCol * WORLD_BLOCK_SIZE,
+            mouseRow * WORLD_BLOCK_SIZE,
+            WORLD_BLOCK_SIZE,
+            WORLD_BLOCK_SIZE
+        },
+        1.0 / camera->zoom,
+        YELLOW
+    );
+}
+
 void updateGameScreen(Game* game)
 {
     ClearBackground(BLACK);
@@ -100,6 +133,8 @@ void updateGameScreen(Game* game)
 
     //DrawTexture(game->assets.textures[CHARACTER_TEXTURE], 0, 0, WHITE);
     updateWorld(&game->world, game);
+
+    drawGameEntityInfo(game);
 
     EndMode2D();
 }
