@@ -11,7 +11,9 @@
 
 #define NPCS_MIN 15
 #define NPCS_MAX 50
-#define NPC_SPEED 0.05
+#define NPC_SPEED 100.0
+
+#define MAX_NPCS_PER_STRUCTURE 5 // How many npcs a structure can have.
 
 // type structure is at each point.
 typedef enum StructureID {
@@ -32,8 +34,15 @@ typedef struct Npc {
     int targetCol;
 } Npc;
 
+// Holds information about the npcs inside a structure.
+typedef struct StructureNpcData {
+    Npc* npcs[MAX_NPCS_PER_STRUCTURE];
+    int npcCount;
+} StructureNpcData;
+
 typedef struct World {
     StructureID structures[WORLD_ROWS][WORLD_COLS];
+    StructureNpcData structureNpcs[WORLD_ROWS][WORLD_COLS];
     
     Npc npcs[NPCS_MAX];
     int npcCount;

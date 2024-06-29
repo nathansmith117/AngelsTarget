@@ -28,6 +28,14 @@ void initWorld(World* world)
                     world->structures[row][col] = NONE_STRUCTURE;
                     break;
             }
+
+            StructureNpcData* structureNpcData = &world->structureNpcs[row][col];
+            structureNpcData->npcCount = 0;
+
+            for (int i = 0; i < MAX_NPCS_PER_STRUCTURE; ++i)
+            {
+                structureNpcData->npcs[i] = NULL;
+            }
         }
     }
 
@@ -100,7 +108,7 @@ void updateNpc(World* world, Npc* npc, Game* game)
     }
     else
     {
-        float frameTime = GetTime();
+        float frameTime = GetFrameTime();
         npc->position = Vector2Add(npc->position, Vector2Scale(npc->direction, frameTime * NPC_SPEED));
     }
 
