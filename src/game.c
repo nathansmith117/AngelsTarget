@@ -33,6 +33,9 @@ void initGame(Game* game)
 
     // World.
     initWorld(&game->world);
+
+    game->hoverRow = 0;
+    game->hoverCol = 0;
 }
 
 void updateMainMenu(Game* game)
@@ -90,7 +93,7 @@ void updateGameControls(Game* game)
 }
 
 // Things you are hovering your mouse over.
-void drawGameEntityInfo(Game* game)
+void updateGameMouseHover(Game* game)
 {
     World* world = &game->world;
     Camera2D* camera = &game->camera;
@@ -109,17 +112,59 @@ void drawGameEntityInfo(Game* game)
         return;
     }
 
-    // Draw outline.
-    DrawRectangleLinesEx(
-        (Rectangle){
-            mouseCol * WORLD_BLOCK_SIZE,
-            mouseRow * WORLD_BLOCK_SIZE,
-            WORLD_BLOCK_SIZE,
-            WORLD_BLOCK_SIZE
-        },
-        1.0 / camera->zoom,
-        YELLOW
-    );
+    game->hoverRow = mouseRow;
+    game->hoverCol = mouseCol;
+}
+
+// What to display info about.
+enum {
+    SIDE_INFO_NONE,
+    SIDE_INFO_NPC,
+    SIDE_INFO_STRUCTURE
+};
+
+void drawGameSideInfo(Game* game)
+{
+    World* world = &game->world;
+    int hoverRow = game->hoverRow;
+    int hoverCol = game->hoverCol;
+    
+    int type = SIDE_INFO_NONE;
+
+    // Search for a npc.
+    Npc* npcOver = NULL;
+
+    for (int i = 0; i < world->npcCount; ++i)
+    {
+        Npc* npc = &world->npcs[i];
+    }
+
+    if (npcOver != NULL)
+    {
+        type = SIDE_INFO_NPC;
+    }
+    else // Check for structure.
+    {
+        if (world->structures[hoverRow][hoverCol] != NONE_STRUCTURE)
+        {
+            type = SIDE_INFO_STRUCTURE;
+        }
+    }
+
+    switch (type)
+    {
+        case SIDE_INFO_NONE:
+            puts("none");
+            break;
+        case SIDE_INFO_NPC:
+            puts("npc");
+            break;
+        case SIDE_INFO_STRUCTURE:
+            puts("structure");
+            break;
+        default:
+            break;
+    }
 }
 
 void updateGameScreen(Game* game)
@@ -127,14 +172,13 @@ void updateGameScreen(Game* game)
     ClearBackground(BLACK);
 
     updateGameCamera(game);
+    updateGameMouseHover(game);
     updateGameControls(game);
 
     BeginMode2D(game->camera);
 
-    //DrawTexture(game->assets.textures[CHARACTER_TEXTURE], 0, 0, WHITE);
     updateWorld(&game->world, game);
-
-    drawGameEntityInfo(game);
+    drawGameSideInfo(game);
 
     EndMode2D();
 }

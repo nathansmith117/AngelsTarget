@@ -23,6 +23,9 @@ typedef struct Game {
 
     Camera2D camera;
     World world;
+
+    int hoverRow;
+    int hoverCol;
 } Game;
 
 void initGame(Game* game);

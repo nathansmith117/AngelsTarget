@@ -140,7 +140,15 @@ void updateWorld(World* world, Game* game)
 
             if (world->showGrid)
             {
-                DrawRectangleLinesEx((Rectangle){x, y, WORLD_BLOCK_SIZE, WORLD_BLOCK_SIZE}, 1.0 / game->camera.zoom, BLUE);   
+                Color color = BLUE;
+
+                // At the same spot as the mouse.
+                if (row == game->hoverRow && col == game->hoverCol)
+                {
+                    color = YELLOW;
+                }
+                
+                DrawRectangleLinesEx((Rectangle){x, y, WORLD_BLOCK_SIZE, WORLD_BLOCK_SIZE}, 1.0 / game->camera.zoom, color);   
             }
         }
     }
