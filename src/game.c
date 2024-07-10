@@ -123,11 +123,13 @@ enum {
     SIDE_INFO_STRUCTURE
 };
 
-void drawGameSideInfo(Game* game)
+void updateGameSideInfo(Game* game)
 {
     World* world = &game->world;
     int hoverRow = game->hoverRow;
     int hoverCol = game->hoverCol;
+    float hoverX = hoverCol * WORLD_BLOCK_SIZE;
+    float hoverY = hoverRow * WORLD_BLOCK_SIZE;
     
     int type = SIDE_INFO_NONE;
 
@@ -137,8 +139,16 @@ void drawGameSideInfo(Game* game)
     for (int i = 0; i < world->npcCount; ++i)
     {
         Npc* npc = &world->npcs[i];
+
+        // Npc found.
+        if (fabsf(npc->position.x - hoverX) <= WORLD_BLOCK_SIZE && fabsf(npc->position.y - hoverY) <= WORLD_BLOCK_SIZE)
+        {
+            npcOver = npc;
+            break;
+        }
     }
 
+    // Pick a thing.
     if (npcOver != NULL)
     {
         type = SIDE_INFO_NPC;
@@ -154,13 +164,10 @@ void drawGameSideInfo(Game* game)
     switch (type)
     {
         case SIDE_INFO_NONE:
-            puts("none");
             break;
         case SIDE_INFO_NPC:
-            puts("npc");
             break;
         case SIDE_INFO_STRUCTURE:
-            puts("structure");
             break;
         default:
             break;
@@ -178,7 +185,7 @@ void updateGameScreen(Game* game)
     BeginMode2D(game->camera);
 
     updateWorld(&game->world, game);
-    drawGameSideInfo(game);
+    updateGameSideInfo(game);
 
     EndMode2D();
 }
